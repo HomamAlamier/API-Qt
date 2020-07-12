@@ -1,8 +1,8 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "Command.h"
-#include "user.h"
+#include <DataTypes/Command.h>
+#include <DataTypes/user.h>
 #include <QtNetwork>
 #include <thread>
 

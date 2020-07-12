@@ -27,7 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    Command.h \
-    client.h \
-    property.hpp \
-    user.h
+    DataTypes/Command.h \
+    API/client.h \
+    std/property.hpp \
+    DataTypes/user.h

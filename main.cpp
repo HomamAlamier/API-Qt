@@ -1,8 +1,8 @@
 #include <QCoreApplication>
 #include <QtNetwork>
-#include <Command.h>
-#include <client.h>
-#include <user.h>
+#include <DataTypes/Command.h>
+#include <API/client.h>
+#include <DataTypes/user.h>
 #include <thread>
 QT_REQUIRE_CONFIG(ssl);
 void Connected(void* ptr, API::EventArgs* e)

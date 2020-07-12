@@ -34,6 +34,7 @@ template <class T>
         T get()
         {
             if (canGet) return data;
+            else return (T)0;
         }
         void set(T data)
         {
