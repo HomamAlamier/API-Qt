@@ -15,11 +15,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        Command.cpp \
-        client.cpp \      
-        property.hpp \
+        DataTypes/Command.cpp \
+        API/client.cpp \
+        std/property.hpp \
         main.cpp \
-        user.cpp
+        DataTypes/user.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
