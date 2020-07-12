@@ -3,6 +3,8 @@
 
 #include <DataTypes/Command.h>
 #include <DataTypes/user.h>
+#include <DataTypes/message.h>
+#include <std/logger.hpp>
 #include <QtNetwork>
 #include <thread>
 
@@ -19,6 +21,11 @@ namespace API
         std::Prop<DataTypes::User*> UserData;
         UserInfoReceiveEventArgs(DataTypes::User* u) { UserData.set(u); }
     };
+    class MessageReceiveEventArgs : public EventArgs {
+    public:
+        std::Prop<DataTypes::Message*> Message;
+        MessageReceiveEventArgs(DataTypes::Message* u) { Message.set(u); }
+    };
     #define MAINPORT 4444
     typedef void (*EventHandler)(void*, EventArgs*);
 
@@ -29,14 +36,18 @@ namespace API
         QSslSocket* socket;
         const char* ip;
         QThread* readThread;
+        std::Logger* log;
     public:
         std::Prop<EventHandler> OnConnect;
         std::Prop<EventHandler> OnCreateUser;
         std::Prop<EventHandler> OnUserInfoReceive;
+        std::Prop<EventHandler> OnMessageReceive;
         std::Prop<DataTypes::User*> CurrentUser;
         Client(const char* ip);
         void Connect();
-        void CreateUser(DataTypes::User* usr);
+        void CreateUser(DataTypes::User& usr);
+        void GetUserInfo(QString tag);
+        void SendMessage(DataTypes::Message& msg);
         void READ();
     };
 }

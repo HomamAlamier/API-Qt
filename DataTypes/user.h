@@ -3,7 +3,7 @@
 
 #include <QCoreApplication>
 #include <std/property.hpp>
-
+#include <std/util.hpp>
 namespace DataTypes {
 
     enum class CreateUserError

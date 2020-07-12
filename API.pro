@@ -17,7 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         DataTypes/Command.cpp \
         API/client.cpp \
-        std/property.hpp \
+        DataTypes/message.cpp \
         main.cpp \
         DataTypes/user.cpp
 
@@ -29,5 +29,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     DataTypes/Command.h \
     API/client.h \
+    DataTypes/message.h \
+    std/logger.hpp \
     std/property.hpp \
-    DataTypes/user.h
+    DataTypes/user.h \
+    std/util.hpp

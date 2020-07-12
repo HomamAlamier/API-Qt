@@ -1,9 +1,6 @@
 #ifndef PROPERTY_HPP
 #define PROPERTY_HPP
 
-typedef unsigned long long uulong;
-#define INT_MAXVALUE 2147483647
-
 namespace std {
 template <class T>
     class Prop

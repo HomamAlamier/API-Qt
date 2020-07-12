@@ -2,30 +2,6 @@
 #include <iostream>
 #include <sstream>
 namespace DataTypes {
-    void catoqa(QByteArray& array, char* data, int size)
-    {
-        for (int i = 0; i < size; ++i) {
-            array.push_back(data[i]);
-        }
-    }
-    void catoqa(QByteArray& array, const char* data, int size)
-    {
-        for (int i = 0; i < size; ++i) {
-            array.push_back(data[i]);
-        }
-    }
-    void intToqa(QByteArray& array, int value)
-    {
-        char tmp[4];
-        memcpy_s(tmp, 4, &value, 4);
-        catoqa(array, tmp, 4);
-    }
-    char* emptyca()
-    {
-        char* tmp = new char[1];
-        tmp[0] = 0;
-        return tmp;
-    }
     User::User()
     {
         Privacy.set(NULL);
@@ -41,14 +17,10 @@ namespace DataTypes {
         char bID[8];
         char intB[4];
         User* usr = new User();
-        ulong id = 0;
-        memcpy_s(bID, 8, &data.data()[cind], 8);
-        memcpy_s(&id, 8, bID, 8);
+        ulong id = utils::caTo_uulong(&data.data()[cind]);
         usr->ID.set(id);
         cind += 8;
-        int perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        int perm1 = utils::caTo_int(&data.data()[cind]);
         if (perm1 != INT_MAXVALUE)
         {
             usr->Privacy.set(new UserPrivacy());
@@ -69,9 +41,7 @@ namespace DataTypes {
         }
 
         //Email
-        perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        perm1 = utils::caTo_int(&data.data()[cind]);
         cind += 4;
         char* email = new char[perm1 + 1];
         email[perm1] = 0;
@@ -80,9 +50,7 @@ namespace DataTypes {
         cind += perm1;
 
         //Password
-        perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        perm1 = utils::caTo_int(&data.data()[cind]);
         cind += 4;
         char* pass = new char[perm1 + 1];
         pass[perm1] = 0;
@@ -91,9 +59,7 @@ namespace DataTypes {
         cind += perm1;
 
         //Name
-        perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        perm1 = utils::caTo_int(&data.data()[cind]);
         cind += 4;
         char* nm = new char[perm1 + 1];
         nm[perm1] = 0;
@@ -102,9 +68,7 @@ namespace DataTypes {
         cind += perm1;
 
         //PPID
-        perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        perm1 = utils::caTo_int(&data.data()[cind]);
         cind += 4;
         char* ppid = new char[perm1 + 1];
         ppid[perm1] = 0;
@@ -113,9 +77,7 @@ namespace DataTypes {
         cind += perm1;
 
         //Tag
-        perm1 = -1;
-        memcpy_s(intB, 4, &data.data()[cind], 4);
-        memcpy_s(&perm1, 4, intB, 4);
+        perm1 = utils::caTo_int(&data.data()[cind]);
         cind += 4;
         char* tag = new char[perm1 + 1];
         tag[perm1] = 0;
@@ -131,78 +93,78 @@ namespace DataTypes {
         char id[8];
         uulong idt = ID.get();
         memcpy_s(id, 8, &idt, 8);
-        catoqa(array, id, 8);
+        utils::catoqa(array, id, 8);
         if (Privacy != NULL)
         {
-            intToqa(array, (int)Privacy.get()->CanGetInfo.get());
-            intToqa(array, (int)Privacy.get()->CanSeePicture.get());
-            intToqa(array, (int)Privacy.get()->CanSeeBio.get());
+            utils::intToqa(array, (int)Privacy.get()->CanGetInfo.get());
+            utils::intToqa(array, (int)Privacy.get()->CanSeePicture.get());
+            utils::intToqa(array, (int)Privacy.get()->CanSeeBio.get());
         }
         else
         {
-            intToqa(array, INT_MAXVALUE);
-            intToqa(array, 0);
-            intToqa(array, 0);
+            utils::intToqa(array, INT_MAXVALUE);
+            utils::intToqa(array, 0);
+            utils::intToqa(array, 0);
         }
 
         if (Email != NULL)
         {
             int sz = Email.get()->toStdString().size();
-            intToqa(array, sz);
-            catoqa(array, Email.get()->toStdString().c_str(), sz);
+            utils::intToqa(array, sz);
+            utils::catoqa(array, Email.get()->toStdString().c_str(), sz);
         }
         else
         {
-            intToqa(array, 1);
-            catoqa(array, emptyca(), 1);
+            utils::intToqa(array, 1);
+            utils::catoqa(array, utils::emptyca(), 1);
         }
 
         if (Password != NULL)
         {
             int sz = Password.get()->toStdString().size();
-            intToqa(array, sz);
-            catoqa(array, Password.get()->toStdString().c_str(), sz);
+            utils::intToqa(array, sz);
+            utils::catoqa(array, Password.get()->toStdString().c_str(), sz);
         }
         else
         {
-            intToqa(array, 1);
-            catoqa(array, emptyca(), 1);
+            utils::intToqa(array, 1);
+            utils::catoqa(array, utils::emptyca(), 1);
         }
 
         if (Name != NULL)
         {
             int sz = Name.get()->toStdString().size();
-            intToqa(array, sz);
-            catoqa(array, Name.get()->toStdString().c_str(), sz);
+            utils::intToqa(array, sz);
+            utils::catoqa(array, Name.get()->toStdString().c_str(), sz);
         }
         else
         {
-            intToqa(array, 1);
-            catoqa(array, emptyca(), 1);
+            utils::intToqa(array, 1);
+            utils::catoqa(array, utils::emptyca(), 1);
         }
 
         if (ProfilePictureID != NULL)
         {
             int sz = ProfilePictureID.get()->toStdString().size();
-            intToqa(array, sz);
-            catoqa(array, ProfilePictureID.get()->toStdString().c_str(), sz);
+            utils::intToqa(array, sz);
+            utils::catoqa(array, ProfilePictureID.get()->toStdString().c_str(), sz);
         }
         else
         {
-            intToqa(array, 1);
-            catoqa(array, emptyca(), 1);
+            utils::intToqa(array, 1);
+            utils::catoqa(array, utils::emptyca(), 1);
         }
 
         if (Tag != NULL)
         {
             int sz = Tag.get()->toStdString().size();
-            intToqa(array, sz);
-            catoqa(array, Tag.get()->toStdString().c_str(), sz);
+            utils::intToqa(array, sz);
+            utils::catoqa(array, Tag.get()->toStdString().c_str(), sz);
         }
         else
         {
-            intToqa(array, 1);
-            catoqa(array, emptyca(), 1);
+            utils::intToqa(array, 1);
+            utils::catoqa(array, utils::emptyca(), 1);
         }
 
         return array;
@@ -210,17 +172,19 @@ namespace DataTypes {
     std::string User::StdOut()
     {
         std::ostringstream os;
-        os << "Name: " << (Name.get() != NULL ? Name.get()->toStdString() : std::string("NULL"));
+        os << "{" << std::endl;
+        os << "\tName: " << (Name.get() != NULL ? Name.get()->toStdString() : std::string("NULL"));
         os << std::endl;
-        os << "Email: " << (Email.get() != NULL ? Email.get()->toStdString() : std::string("NULL"));
+        os << "\tEmail: " << (Email.get() != NULL ? Email.get()->toStdString() : std::string("NULL"));
         os << std::endl;
-        os << "Password: " << (Password.get() != NULL ? Password.get()->toStdString() : std::string("NULL"));
+        os << "\tPassword: " << (Password.get() != NULL ? Password.get()->toStdString() : std::string("NULL"));
         os << std::endl;
-        os << "Tag: " << (Tag.get() != NULL ? Tag.get()->toStdString() : std::string("NULL"));
+        os << "\tTag: " << (Tag.get() != NULL ? Tag.get()->toStdString() : std::string("NULL"));
         os << std::endl;
-        os << "ProfilePictureID: " << (ProfilePictureID.get() != NULL ? ProfilePictureID.get()->toStdString() : std::string("NULL"));
+        os << "\tProfilePictureID: " << (ProfilePictureID.get() != NULL ? ProfilePictureID.get()->toStdString() : std::string("NULL"));
         os << std::endl;
-        os << "ID: " << ID.get();
+        os << "\tID: " << ID.get() << std::endl;
+        os << "}" << std::endl;
         std::string str = os.str();
         return str;
     }

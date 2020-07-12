@@ -4,7 +4,7 @@
 #include <QCoreApplication>
 
 namespace DataTypes {
-    enum CommandType
+    enum class CommandType
     {
         Ping              =  0x1,
         GetVersion        =  0x10,
