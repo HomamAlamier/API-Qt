@@ -35,9 +35,9 @@ template <class T>
         }
         void set(T data)
         {
-            this->data = data;
+            if (canSet)
+                this->data = data;
         }
-        template  <class T>
         bool operator==(T data)
         {
             return this->data == data;
